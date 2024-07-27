@@ -1,39 +1,23 @@
 import React from "react";
-import {
-  useForm,
-  SubmitHandler,
-  Controller,
-  useFieldArray,
-} from "react-hook-form";
-import TextInput from "../common/TextInput";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
-import {
-  updateCurrentStep,
-  updateEducationInfo,
-  userSelector,
-} from "../store/slices/userSlice";
-import { EducationInfoType, EducationType } from "../store/types";
 import { uniqueId } from "lodash";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
+
+import TextInput from "../common/TextInput";
+
 import StepToggler from "../common/StepToggler";
 import { educationLevels } from "../common/utils";
-
-// const educationLevels = [
-//   { label: "SSC", value: "ssc" },
-//   { label: "HSC", value: "hsc" },
-//   { label: "Graduation", value: "graduation" },
-//   { label: "Post Graduation", value: "postGraduation" },
-// ];
+import { EducationInfoType } from "../store/types";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { updateEducationInfo, userSelector } from "../store/slices/userSlice";
 
 const EducationDetails = ({
   field,
-  defaultValue,
   label,
   control,
   error,
   placeholder,
 }: {
   field: string;
-  defaultValue: string;
   label: string;
   control: any;
   error: string;
@@ -51,7 +35,7 @@ const EducationDetails = ({
     if (label === "Passing Year") {
       return {
         ...finalRules,
-        pattern: { value: /^(19|20)\d{2}$/, message: "Invalid Year!" },
+        pattern: { value: /^(19|20)\d{2}$/, message: "Invalid year!" },
       };
     }
 
@@ -65,7 +49,6 @@ const EducationDetails = ({
       control={control}
       name={field}
       rules={getRules()}
-      defaultValue={defaultValue}
       render={({ field: { onChange, value } }) => (
         <TextInput
           id={uniqueId()}
@@ -90,18 +73,17 @@ const EducationForm = () => {
     handleSubmit,
     formState: { errors },
     control,
-  } = useForm<EducationInfoType>({});
+  } = useForm<EducationInfoType>({ defaultValues: educationInfo });
 
   const onSubmit: SubmitHandler<EducationInfoType> = (
     data: EducationInfoType
   ) => {
     dispatch(updateEducationInfo(data));
-    dispatch(updateCurrentStep(2));
   };
 
   return (
     <div>
-      <h1>Education</h1>
+      <h1 className="text-2xl text-center font-semibold mb-4">Education</h1>
 
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -117,10 +99,6 @@ const EducationForm = () => {
 
               <EducationDetails
                 field={`${item.value}.institute`}
-                defaultValue={
-                  educationInfo[item.value as keyof EducationInfoType]
-                    ?.institute
-                }
                 label="School/Institute"
                 control={control}
                 error={
@@ -129,7 +107,7 @@ const EducationForm = () => {
                 }
               />
 
-              {/* <EducationDetails
+              <EducationDetails
                 field={`${item.value}.board`}
                 label="Board/University"
                 control={control}
@@ -159,24 +137,12 @@ const EducationForm = () => {
                     ?.message || ""
                 }
                 placeholder="2000"
-              /> */}
+              />
             </div>
           )
         )}
 
         <StepToggler trigger={trigger} handleNext={handleSubmit(onSubmit)} />
-
-        {/* <div className="flex justify-between">
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-            Prev
-          </button>
-          <button
-            type="submit"
-            className="w-fit bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
-            Next
-          </button>
-        </div> */}
       </form>
     </div>
   );

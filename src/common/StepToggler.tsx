@@ -4,10 +4,10 @@ import { updateCurrentStep, userSelector } from "../store/slices/userSlice";
 
 const StepToggler = ({
   trigger = () => Promise.resolve(true),
-  handleNext,
+  handleNext = () => {},
 }: {
   trigger?: () => Promise<boolean>;
-  handleNext: () => void;
+  handleNext?: () => void;
 }) => {
   const dispatch = useAppDispatch();
   const currentStep = useAppSelector(userSelector).currentStep;
@@ -24,19 +24,19 @@ const StepToggler = ({
             dispatch(updateCurrentStep(currentStep - 1));
           }
         }}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        className={
+          currentStep === 0
+            ? "bg-gray-300 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            : "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        }
       >
         Prev
       </button>
       {currentStep === 5 ? (
         <button
-          // onClick={async () => {
-          //   const result = await trigger();
-          //   if (result) {
-          //     updateStore();
-          //     dispatch(updateCurrentStep(currentStep + 1));
-          //   }
-          // }}
+          onClick={async () => {
+            alert("Form Submitted!");
+          }}
           className="w-fit bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         >
           Submit

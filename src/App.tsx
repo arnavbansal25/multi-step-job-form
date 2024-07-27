@@ -31,7 +31,7 @@ function App() {
   }, []);
 
   return (
-    <div className="m-4">
+    <div className="flex justify-center items-center bg-blue-200 min-h-screen h-full px-64 pt-4 pb-8">
       {
         {
           0: <PersonalInfoForm />,

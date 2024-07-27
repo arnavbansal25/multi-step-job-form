@@ -5,16 +5,14 @@ import {
   Controller,
   useFieldArray,
 } from "react-hook-form";
-import TextInput from "../common/TextInput";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
-import {
-  updateCurrentStep,
-  updateWorkInfo,
-  userSelector,
-} from "../store/slices/userSlice";
-import { WorkInfoType } from "../store/types";
 import { uniqueId } from "lodash";
+
+import TextInput from "../common/TextInput";
 import StepToggler from "../common/StepToggler";
+
+import { WorkInfoType } from "../store/types";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { updateWorkInfo, userSelector } from "../store/slices/userSlice";
 
 const WorkExperienceForm = () => {
   const dispatch = useAppDispatch();
@@ -29,8 +27,6 @@ const WorkExperienceForm = () => {
     defaultValues: workInfo,
   });
 
-  console.log("88", control);
-
   const { fields, append, remove } = useFieldArray({
     name: "workExp",
     control,
@@ -38,14 +34,13 @@ const WorkExperienceForm = () => {
 
   const onSubmit: SubmitHandler<WorkInfoType> = (data: WorkInfoType) => {
     dispatch(updateWorkInfo(data));
-    // dispatch(updateCurrentStep(3));
   };
-
-  console.log("55", workInfo);
 
   return (
     <div>
-      <h1>Work Experience</h1>
+      <h1 className="text-2xl text-center font-semibold mb-4">
+        Work Experience
+      </h1>
 
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -95,11 +90,13 @@ const WorkExperienceForm = () => {
                 name={`workExp.${index}.duration` as const}
                 rules={{
                   required: "This field is required!",
+                  pattern: { value: /^[0-9]*$/, message: "Invalid duration!" },
                 }}
                 render={({ field: { onChange, value } }) => (
                   <TextInput
                     value={value}
-                    label="Duration"
+                    label="Duration (in months)"
+                    placeholder="15"
                     id={uniqueId()}
                     onChange={onChange}
                     error={errors?.workExp?.[index]?.duration?.message}
@@ -134,18 +131,6 @@ const WorkExperienceForm = () => {
         </button>
 
         <StepToggler trigger={trigger} handleNext={handleSubmit(onSubmit)} />
-
-        {/* <div className="flex justify-between">
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-          Prev
-        </button>
-        <button
-          type="submit"
-          className="w-fit bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        >
-          Next
-        </button>
-      </div> */}
       </form>
     </div>
   );

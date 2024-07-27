@@ -1,21 +1,14 @@
 import React from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import TextInput from "../common/TextInput";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
-import {
-  updateAdditionalInfo,
-  updateCurrentStep,
-  userSelector,
-} from "../store/slices/userSlice";
-import { AdditionalInfoType } from "../store/types";
-import { uniqueId } from "lodash";
+
 import StepToggler from "../common/StepToggler";
+import { AdditionalInfoType } from "../store/types";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { updateAdditionalInfo, userSelector } from "../store/slices/userSlice";
 
 const AdditionalInfoForm = () => {
   const dispatch = useAppDispatch();
   const additionalInfo = useAppSelector(userSelector).additionalInfo;
-
-  const store = useAppSelector(userSelector);
 
   const {
     trigger,
@@ -26,21 +19,17 @@ const AdditionalInfoForm = () => {
     defaultValues: additionalInfo,
   });
 
-  console.log("0090", additionalInfo);
-
   const onSubmit: SubmitHandler<AdditionalInfoType> = (
     data: AdditionalInfoType
   ) => {
-    console.log("550", data);
     dispatch(updateAdditionalInfo(data));
-    // dispatch(updateCurrentStep(1));
   };
-
-  console.log("ff", store);
 
   return (
     <div>
-      <h1>Additions Information</h1>
+      <h1 className="text-2xl text-center font-semibold mb-4">
+        Additional Information
+      </h1>
 
       <form
         onSubmit={handleSubmit(onSubmit)}
