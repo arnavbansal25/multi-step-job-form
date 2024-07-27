@@ -96,30 +96,34 @@ const AdditionalInfoForm = () => {
 
       <section>
         <div className="text-2xl font-semibold mb-1">Work Experience</div>
-        <table className="w-fit text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-              <th scope="col" className="px-6 py-3">
-                Company Name
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Job Title
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Duration (in months)
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {store?.workInfo?.workExp.map((item, index) => (
-              <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                <td className="px-6 py-4">{item?.companyName}</td>
-                <td className="px-6 py-4">{item?.jobTitle}</td>
-                <td className="px-6 py-4">{item?.duration}</td>
+        {store?.workInfo?.workExp.length === 0 ? (
+          "None"
+        ) : (
+          <table className="w-fit text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                <th scope="col" className="px-6 py-3">
+                  Company Name
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Job Title
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Duration (in months)
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {store?.workInfo?.workExp.map((item, index) => (
+                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <td className="px-6 py-4">{item?.companyName}</td>
+                  <td className="px-6 py-4">{item?.jobTitle}</td>
+                  <td className="px-6 py-4">{item?.duration}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </section>
 
       <section>
