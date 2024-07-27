@@ -37,12 +37,6 @@ const AdditionalInfoForm = () => {
 
   console.log("ff", store);
 
-  const a = {
-    b: {
-      v: "123",
-    },
-  };
-
   const submitUser = () => {
     // localStorage.set("user", store);
   };
@@ -147,11 +141,22 @@ const AdditionalInfoForm = () => {
       </table>
 
       <div className="text-2xl font-semibold">Skills and Qualifications</div>
+      <div>Skills</div>
       {store?.skillsInfo?.technicalSkills?.map((item, index) => (
-        <div key={index}>{item?.label}</div>
+        <div key={index}>{item?.value}</div>
+      ))}
+
+      <div>Certifications</div>
+      {store?.skillsInfo?.certifications?.map((item, index) => (
+        <div key={index}>{item?.value}</div>
       ))}
 
       <div className="text-2xl font-semibold">Additions Information</div>
+      <div>Cover Letter</div>
+      <div>{store?.additionalInfo?.coverLetter || "None"}</div>
+
+      <div>Resume</div>
+      <div>{store?.additionalInfo?.resume || "None"}</div>
 
       <StepToggler handleNext={submitUser} />
     </div>

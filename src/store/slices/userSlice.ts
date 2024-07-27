@@ -17,7 +17,7 @@ const educationDetails = {
 };
 
 const initialState: UserType = {
-  currentStep: 3,
+  currentStep: 0,
   personalInfo: {
     name: "",
     email: "",
